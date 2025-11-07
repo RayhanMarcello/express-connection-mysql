@@ -11,7 +11,7 @@ app.use(middlewareLogReq);
 
 app.use(express.json());
 
-app.use("/users", userRoutes);
+app.use("/users/", userRoutes);
 
 app.listen(PORT, () => {
   console.log("berjalan di port", PORT);

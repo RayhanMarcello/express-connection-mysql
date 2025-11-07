@@ -1,4 +1,3 @@
-import { use } from "react";
 import usersModel from "../models/users.js";
 
 // CRUD
@@ -42,25 +41,34 @@ const getAllUsers = async (req, res) => {
 };
 
 // update - patch
-const updateUsers = async (req, res) => {
+const updateUser = async (req, res) => {
   const { userId } = req.params;
-  const { name, email, address } = req.body;
-  console.log(userId);
+  const { name, email, address } = req.body; // Extract user data from request body
+
   try {
-    await usersModel.updateUser(name, email, address, userId);
-    res.status(200).json({
-      message: "update user succsess",
-      update: {
-        name: name,
-        email: email,
-        address: address,
-      },
-    });
+    const updateResult = await usersModel.updateUser(
+      userId,
+      name,
+      email,
+      address
+    );
+
+    if (updateResult.affectedRows > 0) {
+      res.status(200).json({
+        message: "User updated successfully",
+        update: {
+          name: name,
+          email: email,
+          address: address,
+        },
+      });
+    } else {
+      res.status(404).json({ message: "User not found or no changes made" });
+    }
   } catch (error) {
-    res.json({
-      message: "update user failed",
-      messageServer: error.message,
-    });
+    res
+      .status(500)
+      .json({ message: "Failed to update user", error: error.message });
   }
 };
 
@@ -80,6 +88,6 @@ const deleteUsers = (req, res) => {
 export default {
   getAllUsers,
   createNewUser,
-  updateUsers,
+  updateUser,
   deleteUsers,
 };

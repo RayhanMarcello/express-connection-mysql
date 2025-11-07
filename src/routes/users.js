@@ -8,7 +8,7 @@ router.get("/", UserController.getAllUsers);
 
 router.post("/", UserController.createNewUser);
 
-router.patch("/:id", UserController.updateUsers);
+router.patch("/:userId", UserController.updateUser);
 
 router.delete("/:id", UserController.deleteUsers);
 export default router;
