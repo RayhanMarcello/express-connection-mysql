@@ -1,3 +1,4 @@
+import { use } from "react";
 import usersModel from "../models/users.js";
 
 // CRUD
@@ -41,13 +42,26 @@ const getAllUsers = async (req, res) => {
 };
 
 // update - patch
-const updateUsers = (req, res) => {
-  const { id } = req.params;
-  console.log("id user", id);
-  res.json({
-    message: "succses update user",
-    data: req.body,
-  });
+const updateUsers = async (req, res) => {
+  const { userId } = req.params;
+  const { name, email, address } = req.body;
+  console.log(userId);
+  try {
+    await usersModel.updateUser(name, email, address, userId);
+    res.status(200).json({
+      message: "update user succsess",
+      update: {
+        name: name,
+        email: email,
+        address: address,
+      },
+    });
+  } catch (error) {
+    res.json({
+      message: "update user failed",
+      messageServer: error.message,
+    });
+  }
 };
 
 // delete
