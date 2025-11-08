@@ -11,12 +11,10 @@ const createNewUser = (name, email, address) => {
 };
 
 const updateUser = async (userId, name, email, address) => {
-  // Define the SQL query for updating the user
   const SQLQuery =
     "UPDATE users SET name = ?, email = ?, address = ? WHERE id = ?";
 
   try {
-    // Execute the query with the parameters
     const [result] = await dbPool.execute(SQLQuery, [
       name,
       email,
@@ -29,4 +27,14 @@ const updateUser = async (userId, name, email, address) => {
   }
 };
 
-export default { getAllUsers, createNewUser, updateUser };
+const deleteUser = async (id) => {
+  const SQLQuery = "DELETE FROM users WHERE id = ?";
+  try {
+    const [result] = await dbPool.execute(SQLQuery, [id]);
+    return result;
+  } catch (error) {
+    return console.log(error);
+  }
+};
+
+export default { getAllUsers, createNewUser, updateUser, deleteUser };

@@ -73,16 +73,19 @@ const updateUser = async (req, res) => {
 };
 
 // delete
-const deleteUsers = (req, res) => {
+const deleteUsers = async (req, res) => {
   const { id } = req.params;
-  res.json({
-    message: "delete user sucsess",
-    data: {
-      id: id,
-      username: req.body.username,
-      password: req.body.password,
-    },
-  });
+  try {
+    const result = await usersModel.deleteUser(id);
+    res.status(200).json({
+      message: "succss delete ",
+      userDelete: result,
+    });
+  } catch (error) {
+    res.status(401).json({
+      message: `cannot find user ${id}`,
+    });
+  }
 };
 
 export default {
