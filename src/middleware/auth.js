@@ -1,8 +1,10 @@
+configDotenv();
 import authModels from "../models/authUser.js";
 import bcrypt from "bcryptjs";
+import { configDotenv } from "dotenv";
 import jwt from "jsonwebtoken";
 
-const jwtSecretKey = "IAQmbXtyG45qgTE";
+const jwtSecretKey = process.env.JWT_TOKEN;
 
 const validateUser = async (req, res, next) => {
   const { email, address } = req.body;
