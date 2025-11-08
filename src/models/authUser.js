@@ -1,8 +1,8 @@
 import dbPool from "../config/database.js";
 
-const validateUserModel = async (name, email) => {
-  const SQLQuerry = "SELECT * FROM users WHERE name = ? AND email = ?";
-  return await dbPool.execute(SQLQuerry, [name, email]);
+const validateUserModel = async (email) => {
+  const SQLQuerry = "SELECT * FROM users WHERE email = ?";
+  return await dbPool.execute(SQLQuerry, [email]);
 };
 
 export default { validateUserModel };

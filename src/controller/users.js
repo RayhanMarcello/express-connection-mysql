@@ -1,28 +1,5 @@
 import usersModel from "../models/users.js";
 
-// CRUD
-
-// create
-const createNewUser = async (req, res) => {
-  const { name, email, address } = req.body;
-  try {
-    await usersModel.createNewUser(name, email, address);
-    res.status(200).json({
-      message: "create succsess ",
-      data: {
-        name,
-        email,
-        address,
-      },
-    });
-  } catch (error) {
-    res.status(500).json({
-      message: "cannot create user",
-      messageServer: error.message,
-    });
-  }
-};
-
 // read
 const getAllUsers = async (req, res) => {
   try {
@@ -43,7 +20,7 @@ const getAllUsers = async (req, res) => {
 // update - patch
 const updateUser = async (req, res) => {
   const { userId } = req.params;
-  const { name, email, address } = req.body; // Extract user data from request body
+  const { name, email, address } = req.body;
 
   try {
     const updateResult = await usersModel.updateUser(
@@ -90,7 +67,6 @@ const deleteUsers = async (req, res) => {
 
 export default {
   getAllUsers,
-  createNewUser,
   updateUser,
   deleteUsers,
 };
