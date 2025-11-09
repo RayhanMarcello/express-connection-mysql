@@ -2,15 +2,15 @@ import usersModel from "../models/users.js";
 
 // create
 const createNewUser = async (req, res) => {
-  const { name, email, address } = req.body;
+  const { username, password, email } = req.body;
   try {
-    await usersModel.createNewUser(name, email, address);
+    await usersModel.createNewUser(username, password, email);
     res.status(200).json({
       message: "create succsess ",
       data: {
-        name,
+        username,
+        password,
         email,
-        address,
       },
     });
   } catch (error) {

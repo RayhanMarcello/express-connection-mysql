@@ -13,9 +13,9 @@ app.use(middlewareLogReq);
 
 app.use(express.json());
 
-app.use("/users", userRoutes);
+app.use("/api", userRoutes);
 
-app.use("/login", authRouter);
+app.use("/api", authRouter);
 
 app.use("/dashboard", dashboardRoute);
 

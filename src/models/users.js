@@ -1,26 +1,25 @@
 import dbPool from "../config/database.js";
 
 const getAllUsers = () => {
-  const SQLQuery = "SELECT * FROM users";
-  return dbPool.execute(SQLQuery);
+  try {
+    const SQLQuery = "SELECT * FROM users";
+    return dbPool.execute(SQLQuery);
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-const createNewUser = (name, email, address) => {
-  const SQLQuery = "INSERT INTO users (name, email, address) VALUE (?,?,?)";
-  return dbPool.execute(SQLQuery, [name, email, address]);
-};
-
-const updateUser = async (userId, name, email, address) => {
+const createNewUser = (username, password, email) => {
   const SQLQuery =
-    "UPDATE users SET name = ?, email = ?, address = ? WHERE id = ?";
+    "INSERT INTO users (username, password, role, email ) VALUE (?,?,'siswa',?)";
+  return dbPool.execute(SQLQuery, [username, password, email]);
+};
+
+const updateUser = async (password, id) => {
+  const SQLQuery = "UPDATE users SET password = ? WHERE id = ?";
 
   try {
-    const [result] = await dbPool.execute(SQLQuery, [
-      name,
-      email,
-      address,
-      userId,
-    ]);
+    const [result] = await dbPool.execute(SQLQuery, [password, id]);
     return result;
   } catch (error) {
     throw new Error("Database error while updating user: " + error.message);

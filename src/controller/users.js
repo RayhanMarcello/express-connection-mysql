@@ -19,28 +19,21 @@ const getAllUsers = async (req, res) => {
 
 // update - patch
 const updateUser = async (req, res) => {
-  const { userId } = req.params;
-  const { name, email, address } = req.body;
+  const { id } = req.params;
+  const { password } = req.body;
 
   try {
-    const updateResult = await usersModel.updateUser(
-      userId,
-      name,
-      email,
-      address
-    );
+    const updateResult = await usersModel.updateUser(password, id);
 
     if (updateResult.affectedRows > 0) {
       res.status(200).json({
         message: "User updated successfully",
         update: {
-          name: name,
-          email: email,
-          address: address,
+          newPassword: password,
         },
       });
     } else {
-      res.status(404).json({ message: "User not found or no changes made" });
+      res.status(404).json({ message: "cant change password" });
     }
   } catch (error) {
     res
@@ -53,7 +46,7 @@ const updateUser = async (req, res) => {
 const deleteUsers = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await usersModel.deleteUser(id);
+    const [result] = await usersModel.deleteUser(id);
     res.status(200).json({
       message: "succss delete ",
       userDelete: result,
