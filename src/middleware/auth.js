@@ -1,15 +1,14 @@
 configDotenv();
 import authModels from "../models/auth.js";
-import bcrypt from "bcryptjs";
 import { configDotenv } from "dotenv";
 import jwt from "jsonwebtoken";
 
 const jwtSecretKey = process.env.JWT_TOKEN;
 
 const validateUser = async (req, res, next) => {
-  const { email, address } = req.body;
+  const { username, password } = req.body;
   try {
-    const [result] = await authModels.validateUserModel(email, address);
+    const [result] = await authModels.validateUserModel(username, password);
 
     // console.log(user.address);
 
@@ -21,12 +20,11 @@ const validateUser = async (req, res, next) => {
 
     const user = result[0];
     console.log(user);
-    const isMatch = await bcrypt.compare(address, user.address);
 
     const token = jwt.sign(
       {
-        userId: user.id,
-        email: user.email,
+        id: user.id,
+        username: user.username,
       },
       jwtSecretKey,
       {
@@ -34,7 +32,7 @@ const validateUser = async (req, res, next) => {
       }
     );
 
-    if (address !== user.address) {
+    if (password !== user.password || username !== user.username) {
       return res.json({
         message: "email or address invalid",
       });
